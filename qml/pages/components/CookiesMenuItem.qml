@@ -21,12 +21,12 @@ BackgroundItem {
         }
         DetailItem {
             label: qsTr("Cookies")
-            value: stats.hosts_editable_lines
+            value: stats.cookies_count
             anchors.horizontalCenter: parent.horizontalCenter
         }
         DetailItem {
             label: qsTr("Domains")
-            value: stats.sources_enabled_count
+            value: stats.domains_count
             anchors.horizontalCenter: parent.horizontalCenter
         }
         Label {
