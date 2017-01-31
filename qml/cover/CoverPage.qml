@@ -3,30 +3,35 @@ import Sailfish.Silica 1.0
 
 CoverBackground {
 
-    Column {
-        width: parent.width
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: parent.top
-            topMargin: Theme.paddingLarge
+//        DetailItem {
+//            label: qsTr("Last")
+//            value: (stats.last_time > 0) ? stats.last_time.toLocaleTimeString() : '?'
+//            anchors.horizontalCenter: parent.horizontalCenter
+//        }
+//        DetailItem {
+//            label: qsTr("Enabled")
+//            value: (stats.last_sources > 0) ? qsTr('Yes') : qsTr('No')
+//            anchors.horizontalCenter: parent.horizontalCenter
+//        }
+        Image {
+            id: appIcon
+            source: "../pages/images/harbour-defender.svg"
+            width: Theme.itemSizeLarge
+            height: width
+            anchors.centerIn: parent
+            opacity: (stats.last_sources > 0) ? 1 : 0.5
         }
-        DetailItem {
-            label: qsTr("Last")
-            value: (stats.last_time > 0) ? stats.last_time.toLocaleTimeString() : '?'
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
-        DetailItem {
-            label: qsTr("Enabled")
-            value: (stats.last_sources > 0) ? qsTr('Yes') : qsTr('No')
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
+
         Label {
             x: Theme.paddingLarge
             text: appName
             color: Theme.primaryColor
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors {
+                top: appIcon.bottom
+                topMargin: Theme.paddingLarge
+                horizontalCenter: parent.horizontalCenter
+            }
         }
-    } // Column
 
 //    CoverActionList {
 //        id: coverAction
