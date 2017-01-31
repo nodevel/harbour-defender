@@ -1,0 +1,6 @@
+[Unit]
+Description=Updates the Defender hosts file
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 /usr/share/harbour-defender/qml/python/defender_updater.py

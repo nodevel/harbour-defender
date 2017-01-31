@@ -1,0 +1,9 @@
+[Unit]
+Description=Updates Defender hosts file whenever requested
+Documentation= man:systemd.path
+
+[Path]
+PathExists=/home/nemo/.config/harbour-defender/update
+
+[Install]
+WantedBy=multi-user.target 
