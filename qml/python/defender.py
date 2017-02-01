@@ -19,6 +19,12 @@ LOGFILE_LAST = '/var/log/'+ APP_NAME +'_last.json'
 
 cookies_path = '/home/nemo/.mozilla/mozembed/cookies.sqlite'
 
+def initialize():
+    if not os.path.exists(CONFIG_HOME_DIR):
+        os.makedirs(CONFIG_HOME_DIR)
+
+initialize()
+
 def merge_source_configs(config1, config2, force=False, enabled='no'):
     output = []
     config2 = rebuild_config(config1, config2, force, enabled)
@@ -89,10 +95,13 @@ def rebuild_config(config1, config2, force=False, enabled='no'):
         return config2
 
 def update_now():
-    if os.path.exists(CONFIG_HOME_DIR):
+    """
+    Creates a file in the config directory, which triggers an update.
+    """
+    if os.path.isfile(UPDATE_FILE_PATH):
         os.remove(UPDATE_FILE_PATH)
     touch(UPDATE_FILE_PATH)
-    return True
+    return 0
 
 def check_update():
     return os.path.isfile(UPDATE_FILE_PATH)
@@ -101,7 +110,6 @@ def disable_all():
     output = load_sources(force=True, enabled=no)
     update_now()
     return output
-    
 
 def touch(path):
     with open(path, 'a'):

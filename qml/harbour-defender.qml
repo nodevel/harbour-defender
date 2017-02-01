@@ -14,7 +14,7 @@ ApplicationWindow
     property string appname: appName.toLowerCase()
     property date last_update
 
-    property bool updating
+    property bool updating: true
 
     property var cookieBlacklist: []
     property var cookieWhitelist: []
@@ -86,7 +86,7 @@ ApplicationWindow
             py.call(appname+'.check_update', [], function(result) {
                 updating = result
                 if (!updating) {
-                    call(appname+'.get_stats', [], function (result) {
+                    py.call(appname+'.get_stats', [], function (result) {
                         stats = result
                     });
                 }

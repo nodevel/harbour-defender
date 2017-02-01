@@ -45,7 +45,7 @@ Page {
                             for (var i = 0; i < result.length; i++) {
                                 cookiesModel.append(result[i])
                             }
-                            call(appname+'.get_stats', [], function (result) {
+                            py.call(appname+'.get_stats', [], function (result) {
                                 stats = result
                             });
                         });
@@ -61,7 +61,7 @@ Page {
                             for (var i = 0; i < result.length; i++) {
                                 cookiesModel.append(result[i])
                             }
-                            call(appname+'.get_stats', [], function (result) {
+                            py.call(appname+'.get_stats', [], function (result) {
                                 stats = result
                             });
                         });
