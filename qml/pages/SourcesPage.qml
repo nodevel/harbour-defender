@@ -35,7 +35,18 @@ Page {
                 width: parent.width
                 indeterminate: true
                 visible: updating
+                label: qsTr("Updating...")
             }
+            Label {
+                x: Theme.paddingLarge
+                visible: updating
+                width: parent.width - 2*x
+                text: qsTr("Update in progress. This may take a while, but you can safely close the application and the update will finish in the background.")
+                color: Theme.secondaryHighlightColor
+                font.pixelSize: Theme.fontSizeLarge
+                wrapMode: Text.Wrap
+            }
+
         }
 
         section {

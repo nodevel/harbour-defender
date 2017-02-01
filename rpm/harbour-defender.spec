@@ -93,11 +93,11 @@ desktop-file-install --delete-original       \
 
 
 %post
-[ -f %{_sysconfdir}/hosts ] && echo "/etc/hosts exists" || echo -n "127.0.0.1               localhost.localdomain localhost\n::1             localhost6.localdomain6 localhost6\n" >> %{_sysconfdir}/hosts
+[ -f %{_sysconfdir}/hosts ] && echo "/etc/hosts exists" || echo -e "127.0.0.1               localhost.localdomain localhost\n::1             localhost6.localdomain6 localhost6\n" >> %{_sysconfdir}/hosts
 [ -f %{_sysconfdir}/hosts.editable ] && echo "/etc/hosts.editable exists" || cp %{_sysconfdir}/hosts %{_sysconfdir}/hosts.editable 2>/dev/null || :
-[ -f %{_a1configdir}/hosts ] && echo "%{_a1configdir}/hosts.editable exists exists" || echo -n "127.0.0.1                   localhost\n" >> %{_a1configdir}/hosts
+[ -f %{_a1configdir}/hosts ] && echo "%{_a1configdir}/hosts.editable exists exists" || echo -e "127.0.0.1                   localhost\n" >> %{_a1configdir}/hosts
 [ -f %{_a1configdir}/hosts.editable ] && echo "%{_a1configdir}/hosts.editable exists" || cp %{_a1configdir}/hosts %{_a1configdir}/hosts.editable 2>/dev/null || :
-[ -f %{_a2configdir}/hosts ] && echo "%{_a2configdir}/hosts.editable exists exists" || echo -n "127.0.0.1                   localhost\n" >> %{_a2configdir}/hosts
+[ -f %{_a2configdir}/hosts ] && echo "%{_a2configdir}/hosts.editable exists exists" || echo -e "127.0.0.1                   localhost\n" >> %{_a2configdir}/hosts
 [ -f %{_a2configdir}/hosts.editable ] && echo "%{_a2configdir}/hosts.editable exists" || cp %{_a2configdir}/hosts %{_a2configdir}/hosts.editable 2>/dev/null || :
 systemctl start %{name}.timer
 systemctl enable %{name}.timer

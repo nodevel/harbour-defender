@@ -118,11 +118,23 @@ def update(remote_urls = urls):
     Main update function - takes a list of remote source URLs, writes all available hosts and returns 0.
     """
     hosts = Hosts(path=tmp_hosts)
+    # Adding the default entries for all host files
+    hosts.add(entries = [
+        HostsEntry(entry_type = 'ipv4',
+                    address = '127.0.0.1', names = ['localhost.localdomain', 'localhost'])
+    ])
+    # Adding remote sources
     for url in remote_urls:
         print(url)
         hosts.import_url(url=url, sanitize = sanitize)
     write_hosts(deepcopy(hosts), android1_hosts)
     write_hosts(deepcopy(hosts), android2_hosts)
+    
+    # Adding the default entries for the native host file
+    hosts.add(entries = [
+        HostsEntry(entry_type = 'ipv6',
+                    address = '::1', names = ['localhost6.localdomain6', 'localhost6'])
+    ])
     write_hosts(deepcopy(hosts), native_hosts)
     if os.path.isfile(tmp_hosts):
         os.remove(tmp_hosts)

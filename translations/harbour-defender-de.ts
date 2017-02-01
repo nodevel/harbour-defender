@@ -221,6 +221,16 @@
         <source>Sources</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/pages/SourcesPage.qml" line="38"/>
+        <source>Updating...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/pages/SourcesPage.qml" line="44"/>
+        <source>Update in progress. This may take a while, but you can safely close the application and the update will finish in the background.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>harbour-defender</name>

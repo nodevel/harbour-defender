@@ -78,10 +78,12 @@ ApplicationWindow
     }
 
     Timer {
+        // Updater - checks whether the updater has finished
         id: updatingTimer
         running: updating
-        interval: 2000
+        interval: 5000
         repeat: true
+        triggeredOnStart: true
         onTriggered: {
             py.call(appname+'.check_update', [], function(result) {
                 updating = result
