@@ -12,7 +12,7 @@ Page {
             title: appName
         }
         cellWidth: width / 2
-        cellHeight: cellWidth * 1.3
+        cellHeight: Theme.itemSizeHuge * 2
         delegate: Loader {
             source: menuItemSource
             width: GridView.view.cellWidth
