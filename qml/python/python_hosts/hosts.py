@@ -106,7 +106,7 @@ class HostsEntry(object):
                 return 'ipv4'
 
     @staticmethod
-    def str_to_hostentry(entry, sanitize = False):
+    def str_to_hostentry(entry, sanitize = False, single_format = False):
         """
         Transform a line from a hosts file into an instance of HostsEntry
         :param entry: A line from the hosts file
@@ -126,6 +126,11 @@ class HostsEntry(object):
             return HostsEntry(entry_type='ipv6',
                               address=address_part,
                               names=line_parts[1:])
+        elif single_format and len(line_parts) == 1 and valid_hostnames(line_parts):
+            address_part = '0.0.0.0'
+            return HostsEntry(entry_type='ipv4',
+                              address=address_part,
+                              names=line_parts)
         else:
             return False
 
@@ -271,7 +276,7 @@ class Hosts(object):
                 raise ValueError('No address or name was specified for removal.')
             self.entries = list(filter(func, self.entries))
 
-    def import_url(self, url=None, force=None, sanitize = True):
+    def import_url(self, url=None, force=None, single_format = False, sanitize = True):
         """
         Read a list of host entries from a URL, convert them into instances of HostsEntry and
         then append to the list of entries in Hosts
@@ -291,7 +296,7 @@ class Hosts(object):
             else:
                 line = line.partition('#')[0]
                 line = line.rstrip()
-                import_entry = HostsEntry.str_to_hostentry(line, sanitize = sanitize)
+                import_entry = HostsEntry.str_to_hostentry(line, single_format = single_format, sanitize = sanitize)
                 if import_entry:
                     import_entries.append(import_entry)
         add_result = self.add(entries=import_entries, force=force)
