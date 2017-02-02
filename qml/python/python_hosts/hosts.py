@@ -301,7 +301,7 @@ class Hosts(object):
                 'add_result': add_result,
                 'write_result': write_result}
 
-    def import_file(self, import_file_path=None):
+    def import_file(self, import_file_path=None, write_file = False):
         """
         Read a list of host entries from a file, convert them into instances
         of HostsEntry and then append to the list of entries in Hosts
@@ -326,7 +326,10 @@ class Hosts(object):
                         else:
                             invalid_count += 1
             add_result = self.add(entries=import_entries)
-            write_result = self.write()
+            if write_file:
+                write_result = self.write()
+            else:
+                write_result = {}
             return {'result': 'success',
                     'skipped': skipped,
                     'invalid_count': invalid_count,

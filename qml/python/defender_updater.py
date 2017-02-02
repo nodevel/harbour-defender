@@ -7,7 +7,6 @@ APP_DIR = '/usr/share/harbour-' + APP_NAME + '/qml/python'
 import sys
 sys.path.insert(0, APP_DIR)
 from python_hosts import Hosts, HostsEntry
-from copy import deepcopy
 import os
 import configparser
 from shutil import copyfile
@@ -80,28 +79,35 @@ def load_sources():
 
 urls, whitelist, whitelist_priority, sanitize = load_sources()
 
-def write_hosts(hosts, path, editable_path=None, whitelist=whitelist):
+def write_hosts(hosts, path, editable_path=None, whitelist=whitelist, copy_instance = True):
     if not editable_path:
         editable_path = path + ".editable"
     check_hosts(editable_path)
-    hosts_obj = deepcopy(hosts)
+    if copy_instance:
+        # make a copy
+        hosts_obj = object.__new__(hosts)
+        hosts_obj.__dict__ = hosts.__dict__.copy()
+    else:
+        hosts_obj = hosts
     if whitelist_priority:
         hosts_obj.import_file(editable_path)
     # whitelist functionality
     for entry in whitelist:
         hosts_obj.remove_all_matching(name=entry)
     if not whitelist_priority:
-        hosts_obj.import_file(editable_path)
+        hosts_obj.import_file(editable_path, write_file = False)
     hosts_obj.write(path=path)
     return True
 
 def rebuild_hosts(path, android=False):
     new_hosts = Hosts()
     #new_hosts.add(entry_type = 'comment', comment = ">> created by hosts-adblock-plus <<")
+    new_hosts.add(entries = [
+            HostsEntry(entry_type = 'ipv4',
+                       address = '127.0.0.1', names = ['localhost.localdomain', 'localhost'])
+        ])
     if not android:
         new_hosts.add(entries = [
-            HostsEntry(entry_type = 'ipv4',
-                       address = '127.0.0.1', names = ['localhost.localdomain', 'localhost']),
             HostsEntry(entry_type = 'ipv6',
                        address = '::1', names = ['localhost6.localdomain6', 'localhost6'])
         ])
@@ -127,15 +133,17 @@ def update(remote_urls = urls):
     for url in remote_urls:
         print(url)
         hosts.import_url(url=url, sanitize = sanitize)
-    write_hosts(deepcopy(hosts), android1_hosts)
-    write_hosts(deepcopy(hosts), android2_hosts)
+    if os.path.exists(android1_dir):
+        write_hosts(hosts, path = android1_hosts, copy_instance = True)
+    if os.path.exists(android2_dir):
+        write_hosts(hosts, path = android2_hosts, copy_instance = True)
     
     # Adding the default entries for the native host file
     hosts.add(entries = [
         HostsEntry(entry_type = 'ipv6',
                     address = '::1', names = ['localhost6.localdomain6', 'localhost6'])
     ])
-    write_hosts(deepcopy(hosts), native_hosts)
+    write_hosts(hosts, path = native_hosts, copy_instance = False)
     if os.path.isfile(tmp_hosts):
         os.remove(tmp_hosts)
     data = {
